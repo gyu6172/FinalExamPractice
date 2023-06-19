@@ -15,6 +15,7 @@ class CChildView : public CWnd
 public:
 	CChildView();
 
+
 // 특성입니다.
 public:
 	std::vector<CMyShape> m_shapes;

@@ -5,6 +5,7 @@ CMyShape::CMyShape()
 {
 	m_ptsCnt = 0;
 	m_color = RGB(rand() % 256, rand() % 256, rand() % 256);
+
 }
 
 void CMyShape::draw(CDC& dc)
@@ -14,4 +15,5 @@ void CMyShape::draw(CDC& dc)
 	dc.SelectObject(pen);
 	dc.SelectObject(brush);
 	dc.Polygon(m_pts, m_ptsCnt);
+
 }
