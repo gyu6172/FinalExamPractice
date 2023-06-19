@@ -19,7 +19,8 @@ public:
 
 // 특성입니다.
 public:
-	std::vector<CMyShape2022_2> m_shapes;
+	std::vector<float> m_x;
+	std::vector<float> m_y;
 
 	// 작업입니다.
 public:

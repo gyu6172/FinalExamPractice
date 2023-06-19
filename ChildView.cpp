@@ -54,11 +54,16 @@ void CChildView::OnPaint()
 {
 
 	CPaintDC dc(this); // 그리기를 위한 디바이스 컨텍스트입니다.
-	
-	for (auto s : m_shapes) {
-		s.draw(dc);
-	}
+	CRect rect;
+	GetClientRect(rect);
 
+	if (m_x.size() > 0) {
+		for (int i = 0; i < m_x.size() - 1; i++) {
+			dc.MoveTo(CPoint(m_x[i]*rect.Width(), m_y[i]*rect.Height()));
+			dc.LineTo(CPoint(m_x[i+1]*rect.Width(), m_y[i+1]*rect.Height()));
+		}
+	
+	}
 	
 }
 
@@ -68,10 +73,11 @@ void CChildView::OnPaint()
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CMyShape2022_2 shape = CMyShape2022_2();
-	shape.doMouseDown(point);
-	m_shapes.push_back(shape);
-	CWnd::OnLButtonDown(nFlags, point);
+	CRect rect;
+	GetClientRect(rect);
+	
+	m_x.push_back(float(point.x)/rect.Width());
+	m_y.push_back(float(point.y)/rect.Height());
 }
 
 
@@ -79,7 +85,11 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if (nFlags == MK_LBUTTON) {
-		m_shapes.back().doMouseUp(point);
+		CRect rect;
+		GetClientRect(rect);
+
+		m_x.push_back(float(point.x) / rect.Width());
+		m_y.push_back(float(point.y) / rect.Height());
 		Invalidate();
 	}
 	CWnd::OnMouseMove(nFlags, point);
@@ -89,8 +99,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	m_shapes.back().doMouseUp(point);
-	Invalidate();
+	
 	CWnd::OnLButtonUp(nFlags, point);
 }
 
@@ -106,7 +115,6 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CChildView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	m_shapes.back().m_str += TCHAR(nChar);
-	Invalidate();
+	
 	CWnd::OnChar(nChar, nRepCnt, nFlags);
 }
