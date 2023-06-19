@@ -9,6 +9,7 @@
 // CChildView 창
 #include <vector>
 #include "CMyShape.h"
+#include "CMyShape2022_2.h"
 class CChildView : public CWnd
 {
 // 생성입니다.
@@ -18,10 +19,7 @@ public:
 
 // 특성입니다.
 public:
-	CRect m_rect1;
-	CRect m_rect2;
-	CString m_str1;
-	CString m_str2;
+	std::vector<CMyShape2022_2> m_shapes;
 
 	// 작업입니다.
 public:
@@ -41,5 +39,9 @@ protected:
 public:
 	
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
