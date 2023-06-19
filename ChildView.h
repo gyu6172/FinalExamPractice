@@ -18,10 +18,10 @@ public:
 
 // 특성입니다.
 public:
-	std::vector<CMyShape> m_shapes;
-	CPoint m_pts[20];
-	int m_ptsCnt;
-	bool draw;
+	CButton m_red;
+	CButton m_blue;
+	CButton m_green;
+	COLORREF m_color;
 	// 작업입니다.
 public:
 
@@ -38,7 +38,9 @@ protected:
 	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnRedBtnClicked();
+	afx_msg void OnGreenBtnClicked();
+	afx_msg void OnBlueBtnClicked();
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };
 

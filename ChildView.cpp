@@ -16,8 +16,7 @@
 
 CChildView::CChildView()
 {
-	m_ptsCnt = 0;
-	draw = false;
+	m_color = RGB(0,0,0);
 }
 
 CChildView::~CChildView()
@@ -27,8 +26,10 @@ CChildView::~CChildView()
 
 BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_PAINT()
-	ON_WM_LBUTTONDOWN()
-	ON_WM_RBUTTONDOWN()
+	ON_WM_CREATE()
+	ON_BN_CLICKED(201, OnRedBtnClicked)
+	ON_BN_CLICKED(202, OnGreenBtnClicked)
+	ON_BN_CLICKED(203, OnBlueBtnClicked)
 END_MESSAGE_MAP()
 
 
@@ -52,41 +53,44 @@ void CChildView::OnPaint()
 {
 
 	CPaintDC dc(this); // 그리기를 위한 디바이스 컨텍스트입니다.
-	
-	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	CRect rect;
+	GetClientRect(rect);
 
-	for (int i = 0; i < m_ptsCnt-1; i++) {
-		dc.MoveTo(m_pts[i]);
-		dc.LineTo(m_pts[i+1]);
-	}
-	// 그리기 메시지에 대해서는 CWnd::OnPaint()를 호출하지 마십시오.
-	for (auto s : m_shapes) {
-		s.draw(dc);
-	}
+	CBrush brush(m_color);
+	dc.SelectObject(brush);
+	dc.Rectangle(200,200, 500,500);
+
+	
 }
 
-
-
-void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
+void CChildView::OnRedBtnClicked()
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	m_pts[m_ptsCnt] = CPoint(point);
-	m_ptsCnt++;
+	m_color = RGB(255,0,0);
 	Invalidate();
-
 }
 
-
-void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
+void CChildView::OnGreenBtnClicked()
 {
-	
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CMyShape shape = CMyShape();
-	shape.m_ptsCnt = m_ptsCnt;
-	for (int i = 0; i < shape.m_ptsCnt; i++) {
-		shape.m_pts[i] = m_pts[i];
-	}
-	m_shapes.push_back(shape);
-	m_ptsCnt = 0;
+	m_color = RGB(0, 255, 0);
 	Invalidate();
+}
+
+void CChildView::OnBlueBtnClicked()
+{
+	m_color = RGB(0, 0, 255);
+	Invalidate();
+}
+
+int CChildView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CWnd::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  여기에 특수화된 작성 코드를 추가합니다.
+
+	m_red.Create(_T("Red"), WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON, CRect(100,100, 180,180), this, 201);
+	m_green.Create(_T("Green"), WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON, CRect(200,100, 280,180), this, 202);
+	m_blue.Create(_T("Blue"), WS_CHILD|WS_VISIBLE|BS_PUSHBUTTON, CRect(300,100, 380,180), this, 203);
+
+	return 0;
 }
