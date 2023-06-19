@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDialog2021.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="CMyShape.h" />
     <ClInclude Include="FinalExamPractice.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDialog2021.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="CMyShape.cpp" />
     <ClCompile Include="FinalExamPractice.cpp" />

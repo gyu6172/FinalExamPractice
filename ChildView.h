@@ -18,11 +18,10 @@ public:
 
 // 특성입니다.
 public:
-	int dx;
-	int dy;
-	CPoint lt, rb;
-
-
+	CRect m_rect1;
+	CRect m_rect2;
+	CString m_str1;
+	CString m_str2;
 
 	// 작업입니다.
 public:
@@ -40,9 +39,7 @@ protected:
 	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
 public:
-
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 
