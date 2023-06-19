@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="CDialog2021.h" />
     <ClInclude Include="ChildView.h" />
+    <ClInclude Include="CMyRectangle.h" />
     <ClInclude Include="CMyShape.h" />
     <ClInclude Include="CMyShape2022_2.h" />
     <ClInclude Include="FinalExamPractice.h" />
@@ -197,6 +198,7 @@
   <ItemGroup>
     <ClCompile Include="CDialog2021.cpp" />
     <ClCompile Include="ChildView.cpp" />
+    <ClCompile Include="CMyRectangle.cpp" />
     <ClCompile Include="CMyShape.cpp" />
     <ClCompile Include="CMyShape2022_2.cpp" />
     <ClCompile Include="FinalExamPractice.cpp" />

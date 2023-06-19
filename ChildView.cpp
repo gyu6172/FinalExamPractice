@@ -16,7 +16,9 @@
 
 CChildView::CChildView()
 {
-	
+	m_color = RGB(255,0,0);
+	isSelected = false;
+	selectedIdx = 0;
 }
 
 CChildView::~CChildView()
@@ -31,6 +33,9 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_LBUTTONUP()
 	ON_WM_KEYDOWN()
 	ON_WM_CHAR()
+	ON_COMMAND(ID_COLOR_RED, &CChildView::OnColorRed)
+	ON_COMMAND(ID_COLOR_GREEN, &CChildView::OnColorGreen)
+	ON_COMMAND(ID_COLOR_BLUE, &CChildView::OnColorBlue)
 END_MESSAGE_MAP()
 
 
@@ -57,12 +62,8 @@ void CChildView::OnPaint()
 	CRect rect;
 	GetClientRect(rect);
 
-	if (m_x.size() > 0) {
-		for (int i = 0; i < m_x.size() - 1; i++) {
-			dc.MoveTo(CPoint(m_x[i]*rect.Width(), m_y[i]*rect.Height()));
-			dc.LineTo(CPoint(m_x[i+1]*rect.Width(), m_y[i+1]*rect.Height()));
-		}
-	
+	for (auto shape : m_shapes) {
+		shape.draw(dc);
 	}
 	
 }
@@ -72,12 +73,23 @@ void CChildView::OnPaint()
 #include "CDialog2021.h"
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	p1 = CPoint(point);
+	p2 = CPoint(point);
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	CRect rect;
-	GetClientRect(rect);
-	
-	m_x.push_back(float(point.x)/rect.Width());
-	m_y.push_back(float(point.y)/rect.Height());
+	for (int i=0;i<m_shapes.size();i++) {
+		if (m_shapes[i].isClicked(point)) {
+			isSelected = true;
+			selectedIdx = i;
+			m_shapes[selectedIdx].m_color = RGB(0,255,255);
+			break;
+		}
+	}
+	if (!isSelected) {
+		CMyRectangle shape = CMyRectangle(m_color);
+		shape.doMouseDown(point);
+		m_shapes.push_back(shape);
+	}
+
 }
 
 
@@ -85,12 +97,27 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if (nFlags == MK_LBUTTON) {
-		CRect rect;
-		GetClientRect(rect);
+		int dx = p2.x-p1.x;
+		int dy = p2.y-p1.y;
+		p1 = p2;
+		p2 = CPoint(point);
+		if (isSelected) {
+			m_shapes[selectedIdx].p1.x += dx;
+			m_shapes[selectedIdx].p2.x += dx;
+			m_shapes[selectedIdx].p1.y += dy;
+			m_shapes[selectedIdx].p2.y += dy;
 
-		m_x.push_back(float(point.x) / rect.Width());
-		m_y.push_back(float(point.y) / rect.Height());
-		Invalidate();
+			m_shapes[selectedIdx].lt.x += dx;
+			m_shapes[selectedIdx].rb.x += dx;
+			m_shapes[selectedIdx].lt.y += dy;
+			m_shapes[selectedIdx].rb.y += dy;
+			Invalidate();
+		}
+		else {
+			m_shapes.back().doMouseUp(point);
+			Invalidate();
+
+		}
 	}
 	CWnd::OnMouseMove(nFlags, point);
 }
@@ -99,7 +126,16 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	
+	if (isSelected) {
+		isSelected = false;
+		m_shapes[selectedIdx].m_color = m_color; 
+		Invalidate();
+	}
+	else {
+		m_shapes.back().doMouseUp(point);
+		Invalidate();
+
+	}
 	CWnd::OnLButtonUp(nFlags, point);
 }
 
@@ -117,4 +153,28 @@ void CChildView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	
 	CWnd::OnChar(nChar, nRepCnt, nFlags);
+}
+
+
+void CChildView::OnColorRed()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_color = RGB(255, 0, 0);
+
+}
+
+
+void CChildView::OnColorGreen()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_color = RGB(0, 255, 0);
+
+}
+
+
+void CChildView::OnColorBlue()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	m_color = RGB(0, 0, 255);
+
 }

@@ -45,6 +45,9 @@
     <ClInclude Include="CMyShape2022_2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CMyRectangle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FinalExamPractice.cpp">
@@ -66,6 +69,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CMyShape2022_2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyRectangle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
